@@ -67,7 +67,7 @@ class CicdServiceProvider extends ModuleServiceProvider
         $registry = $this->app->make(AuthorizationCapabilityRegistryContract::class);
         $requirements = $this->app->make(CapabilityRequirementResolverContract::class);
 
-        foreach (self::CAPABILITIES as $action => [$permission, $description]) {
+        foreach (self::CAPABILITIES as $action => [$permission]) {
             $key = 'common.cicd.' . $action;
             $registry->register(new CapabilityDefinition(
                 key: $key,
@@ -75,10 +75,12 @@ class CicdServiceProvider extends ModuleServiceProvider
                 targetScope: CapabilityDefinition::TARGET_TENANT,
                 admissionPolicy: [ExecutionIdentity::TYPE_OPERATOR => ['member']],
             ));
-            $requirements->register($key, ExecutionIdentity::TYPE_OPERATOR, [
-                'permission' => 'cicd.' . $permission,
-            ]);
         }
+
+        // 字面量登记：AdminConsolePermissionMapTest 静态解析 capability → permission。
+        $requirements->register('common.cicd.view', ExecutionIdentity::TYPE_OPERATOR, ['permission' => 'cicd.view']);
+        $requirements->register('common.cicd.manage', ExecutionIdentity::TYPE_OPERATOR, ['permission' => 'cicd.manage']);
+        $requirements->register('common.cicd.sync', ExecutionIdentity::TYPE_OPERATOR, ['permission' => 'cicd.sync']);
     }
 
     private function registerTools(): void
