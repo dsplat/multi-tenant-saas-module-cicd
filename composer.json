@@ -1,0 +1,32 @@
+{
+    "name": "dsplat/multi-tenant-saas-module-cicd",
+    "description": "CI/CD 跟踪（工作区/仓库/流水线/发布/部署）",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "dsplat/multi-tenant-saas": "^3.1",
+        "dsplat/multi-tenant-saas-module-integration": "^3.0",
+        "dsplat/multi-tenant-saas-base": "^3.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "MultiTenantSaas\\Modules\\Cicd\\": ""
+        }
+    },
+    "extra": {
+        "saas": {
+            "name": "cicd",
+            "priority": 300,
+            "dependencies": [
+                "integration"
+            ],
+            "conflicts": [],
+            "requires_core": ">=3.1.0 <4.0.0",
+            "provider": "MultiTenantSaas\\Modules\\Cicd\\CicdServiceProvider",
+            "tenant_toggleable": true,
+            "module_loadable": true,
+            "default_tenant_enabled": false
+        }
+    }
+}
