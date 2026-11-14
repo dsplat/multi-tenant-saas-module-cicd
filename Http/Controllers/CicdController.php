@@ -7,6 +7,7 @@ namespace MultiTenantSaas\Modules\Cicd\Http\Controllers;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use MultiTenantSaas\Context\TenantContext;
 use MultiTenantSaas\Http\Controllers\BaseController;
 use MultiTenantSaas\Modules\Cicd\Contracts\CicdProjectLinkContract;
 use MultiTenantSaas\Modules\Cicd\Contracts\CicdReadContract;
@@ -116,7 +117,7 @@ class CicdController extends BaseController
 
         $page = Repository::query()
             ->where('workspace_id', $workspace->workspace_id)
-            ->when($request->query('keyword'), fn ($q, $keyword) => $q->where('path', 'like', '%' . $keyword . '%'))
+            ->when($request->query('keyword'), fn ($q, $keyword) => $q->where('path', 'like', '%'.$keyword.'%'))
             ->orderByDesc('last_activity_at')
             ->orderByDesc((new Repository)->getKeyName())
             ->paginate($perPage);
