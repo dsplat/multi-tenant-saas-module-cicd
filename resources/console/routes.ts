@@ -6,7 +6,7 @@ const routes: RouteRecordRaw[] = [
     path: 'cicd',
     name: 'CicdManagement',
     component: view('Cicd', 'CicdManagement'),
-    meta: { title: 'CI/CD 跟踪' },
+    meta: { title: 'CI/CD 跟踪', permission: 'cicd.view' },
   },
 ]
 
